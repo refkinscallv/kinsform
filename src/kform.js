@@ -1,18 +1,45 @@
-$(window).on("load", function(){
-    $("body").prepend("<style>.filterStep {display:none} .showStep {display:block}</style>");
-})
-
-function thisStep(c, act = ""){
-    var x, i;
-    x = document.getElementsByClassName("filterStep");
-    if (c == "all") c = "";
-    for (i = 0; i < x.length; i++) {
-        thisStepRemove(x[i], "showStep");
-        if (x[i].className.indexOf(c) > -1) thisStepAdd(x[i], "showStep");
+window.onload = function(){
+    if(!window.jQuery){
+        alert("jQuery not installed\nplease install it first with at least version 3.6.0");
+    } else {
+        $("body").prepend("<style>.kform {display:none} .kform-show {display:block}</style>");
     }
 }
 
-function thisStepAdd(element, name){
+function kForm(data = ""){
+    var alert;
+    if(typeof data.default_tab !== "undefined"){
+        var sTab    = data.default_tab;
+        kformStep(data.default_tab);
+    } else {
+        var sTab    = data.default_tab;
+        kformStep("ktab1");
+    }
+
+    if(typeof data.empty_message !== "undefined"){
+        alert   = data.empty_message;
+    } else {
+        alert   = "";
+    }
+
+    const obj = {
+        message: alert
+    }
+
+    return obj;
+}
+
+function kformStep(c){
+    var x, i;
+    x = document.getElementsByClassName("kform");
+    if (c == "all") c = "";
+    for (i = 0; i < x.length; i++) {
+        kformStepRemove(x[i], "kform-show");
+        if (x[i].className.indexOf(c) > -1) kformStepAdd(x[i], "kform-show");
+    }
+}
+
+function kformStepAdd(element, name){
     var i, arr1, arr2;
     arr1 = element.className.split(" ");
     arr2 = name.split(" ");
@@ -21,7 +48,7 @@ function thisStepAdd(element, name){
     }
 }
 
-function thisStepRemove(element, name){
+function kformStepRemove(element, name){
     var i, arr1, arr2;
     arr1 = element.className.split(" ");
     arr2 = name.split(" ");
@@ -34,18 +61,27 @@ function thisStepRemove(element, name){
 }
 
 /* Step Button */
-function toStep(param){
-    var opt = (param == 1)? 1 : eval(param) - 1;
+function toKstep(param, ){
+    if(param.indexOf("ktab") < 0){
+        var _ktab   = (param == 1)? 1 : eval(param) - 1;
+    } else {
+        var ktab    = param.split("ktab").join("");
+        var _ktab   = (ktab == 1)? 1 : eval(ktab) - 1;
+    }
     
-    var post_form   = $(".tabStep"+ opt +" input, .tabStep"+ opt +" select, .tabStep"+ opt +" textarea").serializeArray();
+    var post_form   = $(".ktab"+ _ktab +" input, .ktab"+ _ktab +" select, .ktab"+ _ktab +" textarea").serializeArray();
 
     var validate    = stepValidation(post_form);
     
     if(validate.status == true){
-        thisStep(param);
+        kformStep(_ktab);
     } else {
         alert(validate.message);
     }
+}
+
+function backKstep(param){
+    kformStep(param);
 }
 
 /* Step Validation */
@@ -64,20 +100,36 @@ function nullChecker(param){
 }
 
 function stepValidation(data){
-    var status, message, result = { status: true, message: "" };
+    var status, message, message_label, message_alert, msg, result = { status: true, message: "" };
 
     $.each(data.reverse(), function(index){
-        if(!$("[name='"+ data[index]['name'] +"']").attr('data-required')){
+        /* shortcut initial */
+        var initSelector = initKselector(data[index]['name']);
+
+        /* label for message alert */
+        if(!initSelector.attr("data-label") || initSelector.attr("data-label") == ""){
+            message_label   = data[index]['name'];
+        } else {
+            message_label   = initSelector.data("label");
+        }
+
+        if(kForm().message == ""){
+            message_alert   = "can not be empty";
+        } else {
+            message_alert   = kForm().message;
+        }
+
+        if(!initSelector.attr('data-required')){
             if(nullChecker(data[index]['value']) == false){
                 status          = false;
-                message         = ucwords(data[index]['name'].split("_").join(" ")) +" tidak boleh kosong";
+                message         = ucwords(message_label.split("_").join(" ")) +" "+ message_alert;
                 result          = { status: status, message: message };
             }
         } else {
-            if($("[name='"+ data[index]['name'] +"']").attr('data-required') !== "false"){
+            if(initSelector.attr('data-required') !== "false"){
                 if(nullChecker(data[index]['value']) == false){
                     status          = false;
-                    message         = ucwords(data[index]['name'].split("_").join(" ")) +" tidak boleh kosong";
+                    message         = ucwords(message_label.split("_").join(" ")) +" "+ message_alert;
                     result          = { status: status, message: message };
                 }
             }
@@ -85,4 +137,8 @@ function stepValidation(data){
     });
 
     return result;
+}
+
+function initKselector(param){
+    return $("[name='"+ param +"']");
 }
