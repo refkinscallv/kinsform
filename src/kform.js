@@ -1,3 +1,4 @@
+/* kForm v1 © Refkinscallv | kform.github.io (documentation) */
 window.onload = function(){
     if(!window.jQuery){
         alert("kForm Alert\njQuery not installed\nPlease install it first with at least version 3.6.0");
