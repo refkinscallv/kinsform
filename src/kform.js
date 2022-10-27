@@ -1,7 +1,7 @@
 /* kForm v1 © Refkinscallv | kform.github.io (documentation) */
 window.onload = function(){
     if(!window.jQuery){
-        alert("kForm Alert\njQuery not installed\nPlease install it first with at least version 3.6.0");
+        alert("kForm Alert\n\njQuery not installed\nPlease install it first with at least version 3.6.0");
     } else {
         $("body").prepend("<style>.kform {display:none} .kform-show {display:block}</style>");
     }
@@ -10,13 +10,15 @@ window.onload = function(){
 class kForm{
     constructor(data){
         if(typeof data.default_tab !== "undefined"){
-            if(data.default_tab == "" || data.default_tab == null){
-                this.kformStep(1);
+            if(data.default_tab == "" || data.default_tab == null || data.default_tab == false){
+                alert("kForm Alert\n\ndefault_tab not set properly\nuse tabs value");
+                this.kformStep("0");
             } else {
-                this.kformStep(data.default_tab);
+                var tabReturn = (!isNaN(data.default_tab) && parseInt(Number(data.default_tab)) == data.default_tab && !isNaN(parseInt(data.default_tab, 10)))? data.default_tab.toString() : data.default_tab;
+                this.kformStep(tabReturn);
             }
         } else {
-            this.kformStep(1);
+            this.kformStep("1");
         }
 
         if(typeof data.message_alert !== "undefined"){
@@ -51,7 +53,7 @@ class kForm{
 
     /* Step System */
     kformStep(c){
-        var tab;
+        var tab, tab_true;
         if(c.indexOf("ktab") > 0){
             tab = c.split("ktab").join("");
         } else {
@@ -105,14 +107,14 @@ class kForm{
             if(!initSelector.attr('data-required')){
                 if(initValue.length == 0){
                     status          = false;
-                    message         = message_label.split("_").join(" ") + alert;
+                    message         = alert.split("_FIELD_").join(message_label.split("_").join(" "));
                     result          = { status: status, message: message };
                 }
             } else {
                 if(initSelector.attr('data-required') !== "false"){
                     if(this.length == 0){
                         status          = false;
-                        message         = message_label.split("_").join(" ") + alert;
+                        message         = alert.split("_FIELD_").join(message_label.split("_").join(" "));
                         result          = { status: status, message: message };
                     }
                 }

@@ -9,7 +9,7 @@
 
         <!-- Default Source -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <script src="src/kform.min.js"></script>
+        <script src="src/kform.js"></script>
         <!-- Default Source -->
 
     </head>
@@ -60,11 +60,11 @@
 
         <script>
             let myForm = new kForm({
-                /* set the default tab with the tab number you want or it doesn't matter if you don't use it */
-                default_tab: "2",
+                /* set the default tab with the tab number you want, default_tab must be included */
+                default_tab: "1",
 
-                /* set message for unfilled field */
-                message_alert: " It's empty !!",
+                /* set message for unfilled field, include _FIELD_ to show field name or data-label */
+                message_alert: "_FIELD_ It's empty !!",
             });
         </script>
     </body>
