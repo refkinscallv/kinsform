@@ -33,9 +33,9 @@ class kForm{
     }
 
     /* Step Button */
-    to(param){
+    to(numberTab){
+        var param = (!isNaN(numberTab) && parseInt(Number(numberTab)) == numberTab && !isNaN(parseInt(numberTab, 10)))? numberTab.toString() : numberTab;
         var _ktab   = (param == 1)? 1 : eval(param) - 1;
-
         var post_form   = $(".ktab"+ _ktab +" input, .ktab"+ _ktab +" select, .ktab"+ _ktab +" textarea").serializeArray();
     
         var validate    = this.stepValidation(post_form, this.alert);
@@ -47,13 +47,38 @@ class kForm{
         }
     }
     
-    back(param){
+    back(numberTab){
+        var param = (!isNaN(numberTab) && parseInt(Number(numberTab)) == numberTab && !isNaN(parseInt(numberTab, 10)))? numberTab.toString() : numberTab;
         this.kformStep(param);
+    }
+
+    finish(numberTab, form){
+        var param = (!isNaN(numberTab) && parseInt(Number(numberTab)) == numberTab && !isNaN(parseInt(numberTab, 10)))? numberTab.toString() : numberTab;
+        if(form == "" || form == null){
+            alert("kForm Alert\n\nform not found, use ID to initialize the form");
+        } else {
+            if(!document.getElementById(form)){
+                alert("kForm Alert\n\nform with id "+ form +" not found");
+            } else {
+                var post_form   = $(".ktab"+ param +" input, .ktab"+ param +" select, .ktab"+ param +" textarea").serializeArray();
+
+                var validate    = this.stepValidation(post_form, this.alert);
+                
+                if(validate.status == true){
+                    var thisForm = $("#"+ form);
+                    if(typeof thisForm.attr("action") !== 'undefined'){
+                        thisForm.trigger("submit");
+                    } else return;
+                } else {
+                    return alert(validate.message);
+                }
+            }
+        }
     }
 
     /* Step System */
     kformStep(c){
-        var tab, tab_true;
+        var tab
         if(c.indexOf("ktab") > 0){
             tab = c.split("ktab").join("");
         } else {
@@ -94,7 +119,7 @@ class kForm{
     stepValidation(data, alert){
         var status, message, message_label, result = { status: true, message: "" };
     
-        $.each(data.reverse(), function(index){
+        $.each(data, function(index){
             var initSelector    = $("[name='"+ data[index]['name'] +"']");
             var initValue       = data[index]['value'];
     

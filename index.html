@@ -15,13 +15,24 @@
     </head>
     <body>
 
-        <form action="" method="">
+        <form action="" method="" id="form">
             <div class="kform ktab1">
                 <!-- this is mandatory! -->
                 <p><b>Tab 1 :</b></p>
                 <input type="text" name="full_name" placeholder="Full Name">
                 <br /><br />
-                <button type="button" onclick="myForm.to('2')">next</button>
+                <!-- 
+                    next button
+
+                    this button performs the command to move to the next tab or panel
+
+                    explanation : 
+
+                    onclick="myForm.to(2)"
+
+                    number 2 in the myForm.to() function is the next tab or the second tab or panel after this
+                 -->
+                <button type="button" onclick="myForm.to(2)">next</button>
             </div>
             <div class="kform ktab2">
                 <p><b>Tab 2 :</b></p>
@@ -36,8 +47,19 @@
                 -->
                 <input type="number" name="phone_number" data-required="false" placeholder="Phone Number">
                 <br /><br />
-                <button type="button" onclick="myForm.back('1')">prev</button>
-                <button type="button" onclick="myForm.to('3')">next</button>
+                <!-- 
+                    previous button
+
+                    this button performs the command to move to the previous tab or panel
+
+                    explanation : 
+
+                    onclick="myForm.back(1)"
+
+                    number 1 in the myForm.back() function is the previous tab or the first tab or panel before this
+                 -->
+                <button type="button" onclick="myForm.back(1)">prev</button>
+                <button type="button" onclick="myForm.to(3)">next</button>
             </div>
             <div class="kform ktab3">
                 <p><b>Tab 3 :</b></p>
@@ -53,12 +75,28 @@
                 -->
                 <input type="text" name="gender" data-label="your gender" placeholder="Gender">
                 <br /><br />
-                <button type="button" onclick="myForm.back('2')">prev</button>
-                <button type="button" onclick="myForm.finish('3')">Submit</button>
+                <button type="button" onclick="myForm.back(2)">prev</button>
+                <!-- 
+                    finish button
+                    
+                    use the final function "myForm.finish(3, 'form')" for more specific and safe use of features
+                    in it there is a magic configuration by detecting 
+                    the type of single page form or request with ajax
+
+                    explanation : 
+
+                    onclick="myForm.finish(3, 'form')"
+
+                    number 3 in the myForm.finish() function is the last tab for the form or the last part of the step
+                    and 'form' is the id of the form that uses this multi-step feature,
+                    to confirm the value of all the fields in it
+                -->
+                <button type="button" onclick="myForm.finish(3, 'form')">Submit</button>
             </div>
         </form>
 
         <script>
+            /* Call kForm class to use */
             let myForm = new kForm({
                 /* set the default tab with the tab number you want, default_tab must be included */
                 default_tab: "1",
