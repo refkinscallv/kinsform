@@ -9,7 +9,7 @@
 
         <!-- Default Source -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <script src="src/kform_new.js"></script>
+        <script src="src/kform.js"></script>
         <!-- Default Source -->
 
     </head>
@@ -19,22 +19,23 @@
             <div class="kform ktab1">
                 Tab 1<br />
                 <input type="text" name="adudu" data-label="yoy">
-                <button type="button" onclick="kForm.to('1')">next</button>
+                <button type="button" onclick="myForm.to('2')">next</button>
             </div>
             <div class="kform ktab2">
                 Tab 2<br />
-                <button type="button" onclick="kForm.back('2')">prev</button>
-                <!-- <button type="button" onclick="kForm.to('3')">next</button> -->
+                <button type="button" onclick="myForm.back('1')">prev</button>
+                <button type="button" onclick="myForm.to('3')">next</button>
             </div>
             <div class="kform ktab3">
                 Tab 3<br />
-                <!-- <button type="button" onclick="kForm.to('2')">prev</button> -->
+                <button type="button" onclick="myForm.to('2')">prev</button>
             </div>
         </form>
 
         <script>
-            kForm.run({
-                default_tab: "ktab1"
+            let myForm = new kForm({
+                default_tab: "2",
+                message_alert: "kontolodos",
             });
         </script>
     </body>
