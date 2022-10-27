@@ -9,13 +9,21 @@ window.onload = function(){
 class kForm{
     constructor(data){
         if(typeof data.default_tab !== "undefined"){
-            this.kformStep(data.default_tab);
+            if(data.default_tab == "" || data.default_tab == null){
+                this.kformStep(1);
+            } else {
+                this.kformStep(data.default_tab);
+            }
         } else {
             this.kformStep(1);
         }
 
         if(typeof data.message_alert !== "undefined"){
-            this.alert = " "+ data.message_alert;
+            if(data.message_alert == "" || data.message_alert == null){
+                this.alert = " can not be empty";
+            } else {
+                this.alert = " "+ data.message_alert;
+            }
         } else {
             this.alert = " can not be empty";
         }
