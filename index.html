@@ -17,25 +17,54 @@
 
         <form action="" method="">
             <div class="kform ktab1">
-                Tab 1<br />
-                <input type="text" name="adudu" data-label="yoy">
+                <!-- this is mandatory! -->
+                <p><b>Tab 1 :</b></p>
+                <input type="text" name="full_name" placeholder="Full Name">
+                <br /><br />
                 <button type="button" onclick="myForm.to('2')">next</button>
             </div>
             <div class="kform ktab2">
-                Tab 2<br />
+                <p><b>Tab 2 :</b></p>
+                <!--
+                    data attribute = data-required
+
+                    set the field whether the field is mandatory or not 
+                    with the data-required attribute that contains the value true/false
+
+                    if data-required has a true value
+                    then there will be no warning message to be filled
+                -->
+                <input type="number" name="phone_number" data-required="false" placeholder="Phone Number">
+                <br /><br />
                 <button type="button" onclick="myForm.back('1')">prev</button>
                 <button type="button" onclick="myForm.to('3')">next</button>
             </div>
             <div class="kform ktab3">
-                Tab 3<br />
-                <button type="button" onclick="myForm.to('2')">prev</button>
+                <p><b>Tab 3 :</b></p>
+                <!--
+                    data attribute = data-label
+
+                    set label field warning message with data-label for field
+
+                    sample : field with value in name attribute "gender"
+                    then use the data-label attribute with the value "your gender" in the field
+
+                    <input type='text' name='gender' data-label='your gender'>
+                -->
+                <input type="text" name="gender" data-label="your gender" placeholder="Gender">
+                <br /><br />
+                <button type="button" onclick="myForm.back('2')">prev</button>
+                <button type="button" onclick="myForm.finish('3')">Submit</button>
             </div>
         </form>
 
         <script>
             let myForm = new kForm({
+                /* set the default tab with the tab number you want or it doesn't matter if you don't use it */
                 default_tab: "2",
-                message_alert: "kontolodos",
+
+                /* set message for unfilled field */
+                message_alert: " It's empty !!",
             });
         </script>
     </body>
