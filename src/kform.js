@@ -30,6 +30,16 @@ class kForm{
         } else {
             this.alert = " can not be empty";
         }
+
+        if(typeof data.sweetalert2 !== "undefined"){
+            if(data.sweetalert2 == "" || data.sweetalert2 == null || data.sweetalert2 == false){
+                this.sweetalert2    = false;
+            } else {
+                this.sweetalert2    = true;
+            }
+        } else {
+            this.sweetalert2    = false;
+        }
     }
 
     /* Step Button */
@@ -43,7 +53,18 @@ class kForm{
         if(validate.status == true){
             return this.kformStep(param);
         } else {
-            return alert(validate.message);
+            if(this.sweetalert2){
+                return Swal.fire({
+                    icon: "error",
+                    title: "Oops!",
+                    html: validate.message,
+                    iconColor: "#dc3545",
+                    confirmButtonText: "close",
+                    confirmButtonColor: "#dc3545"
+                });
+            } else {
+                return alert(validate.message);
+            }
         }
     }
     
@@ -70,7 +91,18 @@ class kForm{
                         thisForm.trigger("submit");
                     } else return;
                 } else {
-                    return alert(validate.message);
+                    if(this.sweetalert2){
+                        return Swal.fire({
+                            icon: "error",
+                            title: "Oops!",
+                            html: validate.message,
+                            iconColor: "#dc3545",
+                            confirmButtonText: "close",
+                            confirmButtonColor: "#dc3545"
+                        });
+                    } else {
+                        return alert(validate.message);
+                    }
                 }
             }
         }
